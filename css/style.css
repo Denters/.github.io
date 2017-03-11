@@ -76,7 +76,7 @@ a{
   background: #000;
   animation: box-visible 0.8s ease 2s alternate backwards running,
     box-rotation 1s ease 2.8s alternate forwards,
-    line-visible 1s ease 5s alternate forwards;
+    line-visible 1s ease 4.5s alternate forwards;
 }
 .logo{
   position:absolute;
