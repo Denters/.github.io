@@ -70,13 +70,13 @@ a{
 
 .box {
   position: relative;
-  top: -200px;
+  top: -201px;
   width: 100px;
   height: 100px;
   background: #000;
   animation: box-visible 0.8s ease 2s alternate backwards running,
     box-rotation 1s ease 2.8s alternate forwards,
-    line-visible 1s ease 4.5s alternate forwards;
+    line-visible 2s ease 5s alternate forwards;
 }
 .logo{
   position:absolute;
