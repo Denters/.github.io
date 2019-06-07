@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+.setting-headder{
+  background:linear-gradient(-135deg, #E4A972, #9941D8);
+  padding: 60px 20px;
+  justify-content: space-between;
+  width:100%;
+
+}
+
+body{
+  margin:0px;
+}
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  display:inline-block;
+}
+
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+/* Do an horizontal flip when you move the mouse over the flip box container */
+/*.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}*/
+.flip-card-0deg{
+  transform: rotateY(0deg);
+}
+.flip-card-180deg{
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.modalBox{
+ position: fixed;
+ width: 85%;
+ max-width: 420px;
+ height: 0;
+ top:0;
+ bottom:0;
+ left:0;
+ right:0;
+ margin:auto;
+ overflow: hidden;
+ opacity:0;
+ display: none;
+ border-radius: 3px;
+ z-index: 1000;
+ transition:opacity 0.4s;
+  transform-style: preserve-3d;
+}
+.modal-display{
+  display:inline-table;
+  opacity: 1;
+}
+
+.modalInner{
+ padding:10px;
+ text-align: center;
+ box-sizing: border-box;
+ background: rgba(0,0,0,0.7);
+ color: #fff;
+}
+
+.setting-br{
+  width:80%;
+  font-size:1.4em;
+  font-weight: bold;
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+input{
+  height: 60px;
+  width: 200px;
+  font-size: 2em;
+}
+button{
+  height: 60px;
+  width: 50px;
+  font-size:2em;
+  font-weight: bold;
+  color : white;
+  background-color: #248;
+  border-style:  none;
+}
+</style>
+<script>
+  
+function reverse(doc){
+  target2 = doc.getElementsByClassName("flip-card-inner")[0];
+  var flipClass = "flip-card-180deg";
+  if(target2.classList.contains(flipClass))
+    target2.classList.remove(flipClass);
+  else
+    target2.classList.add(flipClass);
+}
+function check_undertop(step){
+  var under = Number(document.getElementById("num_under").value);
+  var top   = Number(document.getElementById("num_top").value);
+  if(under > top&& step == "up") document.getElementById("num_top").value = under;
+  if(under > top&& step == "down") document.getElementById("num_under").value = top;
+}
+function card_refresh(){
+  let cardNum = Number(document.getElementById("card_num").value);
+  let numUnder = Number(document.getElementById("num_under").value);
+  let numTop   = Number(document.getElementById("num_top").value);
+  base = document.getElementById("card-desk");
+
+  if(cardNum>(numTop-numUnder+1))
+  {
+    modal = document.getElementById("modalBox");
+    if(!modal.classList.contains("modal-display")){
+      modal.classList.add("modal-display");
+      setTimeout(function(){modal.classList.remove("modal-display");},2000);
+    }
+    return;
+  }
+
+  //すべての小要素を削除
+  while(base.firstChild){
+    base.removeChild(base.firstChild);
+  }
+
+
+
+  tpl = document.getElementById("card-template");
+  let cardArr =[];
+  for(let n = 1;n<=cardNum;n++){
+    
+    let number = Math.floor(Math.random()*(numTop-numUnder+1))+numUnder;
+    while(cardArr.indexOf(number) >=0){
+      number = Math.floor(Math.random()*(numTop-numUnder+1))+numUnder;
+    }
+    cardArr.push(number);
+    clone = tpl.cloneNode(true);
+
+    let cardBack = clone.getElementsByClassName("flip-card-back")[0];
+    cardBack.getElementsByClassName("flip-card-content")[0].textContent = number;
+
+
+    clone.id="card-"+ n;
+    clone.style.display = "inline-block";
+
+    base.appendChild(clone);
+  }
+
+}
+
+</script>
+
+</head>
+<body>
+  <header class="setting-headder">
+      <div class="setting-br">
+        カード枚数<button onclick="document.getElementById('card_num').stepDown(1);">-</button>
+        <input type="number" id="card_num" min="1">
+        <button onclick="document.getElementById('card_num').stepUp(1)">+</button>
+      </div>
+      <div class="setting-br">
+        数<button onclick="document.getElementById('num_under').stepDown(1)">-</button>
+        <input type="number" id="num_under" oninput="check_undertop()">
+        <button onclick="document.getElementById('num_under').stepUp(1);check_undertop('up')">+</button>
+        ~<button onclick="document.getElementById('num_top').stepDown(1);check_undertop('down')">-</button>
+        <input type="number" id="num_top" oninput="check_undertop()">
+        <button onclick="document.getElementById('num_top').stepUp(1)">+</button>
+      </div>
+      <div class="setting-br">
+        <button style="width:400px" onclick="card_refresh()">カードリフレッシュ</button>
+      </div>
+  </header>
+  <div class="flip-card"  id="card-template" style="display:none;" onclick="reverse(this);">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <h1 class="flip-card-content">Joker</h1> 
+      </div>
+      <div class="flip-card-back">
+        <h1 class="flip-card-content">John Doe</h1> 
+      </div>
+    </div>
+  </div>
+  <div id="card-desk">
+
+  </div>
+		<div class="modalBox" id="modalBox">
+				<div class="modalInner">
+					カード枚数より数を増やしてください
+				</div>
+			</div>
+</body>
+</html>
+
