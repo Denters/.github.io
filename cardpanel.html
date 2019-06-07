@@ -186,17 +186,17 @@ function card_refresh(){
 <body>
   <header class="setting-headder">
       <div class="setting-br">
-        カード枚数<button onclick="document.getElementById('card_num').stepDown(1);">-</button>
+        カード枚数<button touchstart="document.getElementById('card_num').stepDown(1);" onclick="document.getElementById('card_num').stepDown(1);">-</button>
         <input type="number" id="card_num" min="1">
-        <button onclick="document.getElementById('card_num').stepUp(1)">+</button>
+        <button touchstart="document.getElementById('card_num').stepUp(1)" onclick="document.getElementById('card_num').stepUp(1)">+</button>
       </div>
       <div class="setting-br">
-        数<button onclick="document.getElementById('num_under').stepDown(1)">-</button>
+        数<button touchstart="document.getElementById('num_under').stepDown(1)" onclick="document.getElementById('num_under').stepDown(1)">-</button>
         <input type="number" id="num_under" oninput="check_undertop()">
-        <button onclick="document.getElementById('num_under').stepUp(1);check_undertop('up')">+</button>
-        ~<button onclick="document.getElementById('num_top').stepDown(1);check_undertop('down')">-</button>
+        <button touchstart="document.getElementById('num_under').stepUp(1);check_undertop('up')" onclick="document.getElementById('num_under').stepUp(1);check_undertop('up')">+</button>
+        ~<button touchstart="document.getElementById('num_top').stepDown(1);check_undertop('down')" onclick="document.getElementById('num_top').stepDown(1);check_undertop('down')">-</button>
         <input type="number" id="num_top" oninput="check_undertop()">
-        <button onclick="document.getElementById('num_top').stepUp(1)">+</button>
+        <button touchstart="document.getElementById('num_top').stepUp(1)" onclick="document.getElementById('num_top').stepUp(1)">+</button>
       </div>
       <div class="setting-br">
         <button style="width:400px" onclick="card_refresh()">カードリフレッシュ</button>
