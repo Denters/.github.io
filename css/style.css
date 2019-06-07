@@ -4,6 +4,7 @@ a{
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   animation: box-visible 1s ease 5.5s alternate both running;
+  text-decoration:none;
 }
 .c1{
   top:-50px;
