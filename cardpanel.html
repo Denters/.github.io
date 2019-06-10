@@ -37,8 +37,8 @@ body{
 /*.flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }*/
-.flip-card-0deg{
-  transform: rotateY(0deg);
+.flip-card-360deg{
+  transform: rotateY(360deg);
 }
 .flip-card-180deg{
   transform: rotateY(180deg);
@@ -191,15 +191,15 @@ function card_refresh(){
   <header class="setting-headder">
       <div class="setting-br">
         カード枚数<button onclick="document.getElementById('card_num').stepDown(1);">-</button>
-        <input type="number" id="card_num" min="1">
+        <input type="number" id="card_num" min="1" value="1">
         <button onclick="document.getElementById('card_num').stepUp(1)">+</button>
       </div>
       <div class="setting-br">
         数<button onclick="document.getElementById('num_under').stepDown(1)">-</button>
-        <input type="number" id="num_under" oninput="check_undertop()">
+        <input type="number" id="num_under" oninput="check_undertop()" value="0">
         <button onclick="document.getElementById('num_under').stepUp(1);check_undertop('up')">+</button>
         ~<button onclick="document.getElementById('num_top').stepDown(1);check_undertop('down')">-</button>
-        <input type="number" id="num_top" oninput="check_undertop()">
+        <input type="number" id="num_top" oninput="check_undertop()" value="0">
         <button onclick="document.getElementById('num_top').stepUp(1)">+</button>
       </div>
       <div class="setting-br">
