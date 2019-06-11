@@ -114,6 +114,8 @@ input{
   border:0;
   width: 12vw;
   font-size: 2em;
+  border-radius: 0;
+  box-sizing:border-box;
 }
 button{
   height: 7.2vh;
@@ -138,7 +140,9 @@ function reverse(doc){
     target2.classList.remove(flipClass);
   else
     target2.classList.add(flipClass);
+
 }
+
 function check_undertop(step){
   var under = Number(document.getElementById("num_under").value);
   var top   = Number(document.getElementById("num_top").value);
