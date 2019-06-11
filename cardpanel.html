@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html><head>
 <style>
+html {
+  touch-action: manipulation;
+}
 .setting-headder{
   background:linear-gradient(-135deg, #E4A972, #9941D8);
   justify-content: space-between;
@@ -8,7 +11,6 @@
   height:24vh;
   padding-left: 30px;
 }
-
 body{
   margin:0px;
 }
@@ -21,8 +23,6 @@ body{
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
   display:inline-block;
 }
-
-
 /* This container is needed to position the front and back side */
 .flip-card-inner {
   position: relative;
@@ -43,7 +43,6 @@ body{
 .flip-card-180deg{
   transform: rotateY(180deg);
 }
-
 /* Position the front and back side */
 .flip-card-front, .flip-card-back {
   position: absolute;
@@ -51,20 +50,25 @@ body{
   height: 100%;
   perspective: 500px;
   backface-visibility: hidden;
-}
 
+
+}
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   background-color: #bbb;
   color: black;
   transform: translateZ(1px);
 }
-
 /* Style the back side */
 .flip-card-back {
   background-color: dodgerblue;
   color: white;
   transform: rotateY(180deg);
+}
+.flip-card-content{
+  display:inline-block;
+  margin:10%;
+  font-size:8em;
 }
 
 .modalBox{
@@ -89,7 +93,6 @@ body{
   display:inline-table;
   opacity: 1;
 }
-
 .modalInner{
  padding:10px;
  text-align: center;
@@ -97,7 +100,6 @@ body{
  background: rgba(0,0,0,0.7);
  color: #fff;
 }
-
 .setting-br{
   padding-right: 4vw;
   height: 8vh;
@@ -110,7 +112,7 @@ body{
 input{
   height: 7vh;
   border:0;
-  width: 200px;
+  width: 12vw;
   font-size: 2em;
 }
 button{
@@ -121,6 +123,10 @@ button{
   color : white;
   background-color: #248;
   border-style:  none;
+}
+.button-number{
+  width:10vw;
+  margin:0.2vw;
 }
 </style>
 <script>
@@ -144,7 +150,6 @@ function card_refresh(){
   let numUnder = Number(document.getElementById("num_under").value);
   let numTop   = Number(document.getElementById("num_top").value);
   base = document.getElementById("card-desk");
-
   if(cardNum>(numTop-numUnder+1))
   {
     modal = document.getElementById("modalBox");
@@ -154,14 +159,10 @@ function card_refresh(){
     }
     return;
   }
-
   //すべての小要素を削除
   while(base.firstChild){
     base.removeChild(base.firstChild);
   }
-
-
-
   tpl = document.getElementById("card-template");
   let cardArr =[];
   for(let n = 1;n<=cardNum;n++){
@@ -172,48 +173,57 @@ function card_refresh(){
     }
     cardArr.push(number);
     clone = tpl.cloneNode(true);
-
     let cardBack = clone.getElementsByClassName("flip-card-back")[0];
     cardBack.getElementsByClassName("flip-card-content")[0].textContent = number;
-
-
     clone.id="card-"+ n;
     clone.style.display = "inline-block";
-
     base.appendChild(clone);
   }
+}
+function cardNumChange(buttonNumber){
+  document.getElementById('card_num').value = buttonNumber.textContent;
+  document.getElementById('num_top').value = buttonNumber.textContent;
 
 }
-
 </script>
 
 </head>
 <body>
   <header class="setting-headder">
       <div class="setting-br">
-        カード枚数<button onclick="document.getElementById('card_num').stepDown(1);">-</button>
-        <input type="number" id="card_num" min="1" value="1">
-        <button onclick="document.getElementById('card_num').stepUp(1)">+</button>
+        枚数<!--<button onclick="document.getElementById('card_num').stepDown(1);">-</button>-->
+        <button class="button-number" onclick="cardNumChange(this);">1</button>
+        <button class="button-number" onclick="cardNumChange(this);">2</button>
+        <button class="button-number" onclick="cardNumChange(this);">3</button>
+        <button class="button-number" onclick="cardNumChange(this);">4</button>
+        <button class="button-number" onclick="cardNumChange(this);">5</button>
+        <button class="button-number" onclick="cardNumChange(this);">6</button>
+        <button class="button-number" onclick="cardNumChange(this);">7</button>
+        <button class="button-number" onclick="cardNumChange(this);">8</button>
+        <button class="button-number" onclick="cardNumChange(this);">9</button>
+        <button class="button-number" onclick="cardNumChange(this);">10</button>
+        <input type="number" id="card_num" min="1" oninput="document.getElementById('num_top').value=this.value" value="1">
+        <!--<button onclick="document.getElementById('card_num').stepUp(1)">+</button>-->
       </div>
       <div class="setting-br">
         数<button onclick="document.getElementById('num_under').stepDown(1)">-</button>
-        <input type="number" id="num_under" oninput="check_undertop()" value="0">
+        <input type="number" id="num_under" oninput="check_undertop()" value="1">
         <button onclick="document.getElementById('num_under').stepUp(1);check_undertop('up')">+</button>
         ~<button onclick="document.getElementById('num_top').stepDown(1);check_undertop('down')">-</button>
-        <input type="number" id="num_top" oninput="check_undertop()" value="0">
+        <input type="number" id="num_top" oninput="check_undertop()" value="1">
         <button onclick="document.getElementById('num_top').stepUp(1)">+</button>
       </div>
       <div class="setting-br">
         <button style="width:auto" onclick="card_refresh()">カードリフレッシュ</button>
       </div>
   </header>
-  <div class="flip-card"  id="card-template" style="display: none;" onclick="reverse(this);">
+  <div class="flip-card"  id="card-template" style="display: none;" touchstart="reverse(this)" onmousedown="reverse(this);">
     <div class="flip-card-inner">
       <div class="flip-card-front"><img style="width:90%;margin: 5%" src="./trump.jpg">
-        <h1 class="flip-card-content"></h1> 
+        <div class="flip-card-content"></div> 
       </div>
       <div class="flip-card-back">
-        <h1 class="flip-card-content">John Doe</h1> 
+        <div class="flip-card-content"></div> 
       </div>
     </div>
   </div> 
